@@ -21,6 +21,8 @@ document.addEventListener("DOMContentLoaded", function() {
         else
             alert("O frase/palavra não é um palíndromo.");
 
+        input.value = '';
+
     })
 
 })
