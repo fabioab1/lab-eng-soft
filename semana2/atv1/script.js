@@ -46,4 +46,15 @@ document.addEventListener("DOMContentLoaded", function() {
         mes = "dezembro";
 
     document.write("<p>"+dia+", "+diaMes+" de "+mes+" de "+ano+"</p>");
+
+    let ul = document.createElement("ul");
+    let li = document.createElement("li");
+    let a = document.createElement("a");
+    a.href = "../../semana2.html";
+    let t = document.createTextNode("Voltar");
+    
+    a.appendChild(t);
+    li.appendChild(a);
+    ul.appendChild(li);
+    document.body.appendChild(ul);
 })
