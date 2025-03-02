@@ -107,7 +107,13 @@ document.addEventListener("DOMContentLoaded", function() {
         exibirMsgAnos(carro.anosUtilizacao());
         exibirValorMer(carro.valorMercado());
 
-        console.log(carro);
+        iMarca.value = "";
+        iModelo.value = "";
+        iAno.value = "";
+        iCor.value = "";
+        iKm.value = "";
+        iFipe.value = "";
+        iMarca.focus();
 
         e.preventDefault();
     });

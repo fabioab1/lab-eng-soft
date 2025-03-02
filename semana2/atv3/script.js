@@ -7,22 +7,25 @@ document.addEventListener("DOMContentLoaded", function() {
         return textoAoContrario;
     }
 
-    document.getElementById("btn").addEventListener("click", function() {
+    let form = document.getElementById("formulario");
+
+    form.addEventListener("submit", function(e) {
 
         let input = document.getElementById("texto");
         let texto = input.value.replace(/\s/g, '');
         let textoAoContrario = inverterTexto(texto);
-
+    
         console.log(texto);
         console.log(textoAoContrario);
-
-        if (texto == textoAoContrario)
+    
+        if (texto.toLowerCase() == textoAoContrario.toLowerCase())
             alert("A frase/palavra é um palíndromo.");
         else
             alert("O frase/palavra não é um palíndromo.");
-
+    
         input.value = '';
 
+        e.preventDefault();
     })
 
 })
