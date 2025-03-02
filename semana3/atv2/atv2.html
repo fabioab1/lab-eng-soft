@@ -4,11 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Atividade 2</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
     <script language="javascript" type="text/javascript" src="script.js">
-        
+
     </script>
 </head>
 <body>
     
+    <form id="formulario">
+
+        <label for="marca">Marca:</label>
+        <input type="text" id="marca">
+
+        <label for="modelo">Modelo:</label>
+        <input type="text" id="modelo">
+
+        <label for="ano">Ano:</label>
+        <input type="number" min="1900" max="<script>new Date().getYear();</script>" id="ano">
+
+        <label for="cor">Cor:</label>
+        <input type="text" id="cor">
+
+        <label for="km">Kilometragem:</label>
+        <input type="number" min="0" id="km">
+
+        <label for="fipe">Valor Fipe:</label>
+        <input type="number" min="0" step="0.01" id="fipe">
+
+        <input type="submit" id="consultar" value="Consultar">
+
+    </form>
+
 </body>
 </html>
