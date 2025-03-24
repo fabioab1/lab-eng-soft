@@ -1,0 +1,12 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.campo, .opt {
+    margin-bottom: 10px;
+}
+
+#nome {
+    width: 180px;
+}
+
