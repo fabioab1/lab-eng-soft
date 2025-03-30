@@ -136,6 +136,7 @@ document.addEventListener("DOMContentLoaded", function() {
     bAdd.style.paddingLeft = "10px";
     bAdd.style.border = "0px";
     bAdd.style.marginRight = "10px";
+    bAdd.style.userSelect = "none";
 
     bAdd.appendChild(tBAdd);
     divBotoesH.appendChild(bAdd);
@@ -174,6 +175,7 @@ document.addEventListener("DOMContentLoaded", function() {
     bSub.style.paddingRight = "8px";
     bSub.style.paddingLeft = "8px";
     bSub.style.border = "0px";
+    bSub.style.userSelect = "none";
 
     bSub.appendChild(tBSub);
     divBotoesH.appendChild(bSub);
@@ -287,6 +289,7 @@ document.addEventListener("DOMContentLoaded", function() {
     bAdd2.style.paddingLeft = "10px";
     bAdd2.style.border = "0px";
     bAdd2.style.marginRight = "10px";
+    bAdd2.style.userSelect = "none";
 
     bAdd2.appendChild(tBAdd2);
     divBotoesM.appendChild(bAdd2);
@@ -323,6 +326,7 @@ document.addEventListener("DOMContentLoaded", function() {
     bSub2.style.paddingRight = "8px";
     bSub2.style.paddingLeft = "8px";
     bSub2.style.border = "0px";
+    bSub2.style.userSelect = "none";
 
     bSub2.appendChild(tBSub2);
     divBotoesM.appendChild(bSub2);
