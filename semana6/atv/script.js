@@ -1,5 +1,27 @@
 document.addEventListener("DOMContentLoaded", function(){
    
+    function verificarOpr(){
+        let operador = false;
+        let operadores = ["+", "*", "/"];
+
+        for (let i = 0; i < operadores.length; i++)
+            if (res.innerText.includes(operadores[i]))
+                operador = true;
+        
+        return operador;
+    }
+
+    function verificarNmrAnt(){
+        let nmrAnt = false;
+        let operadores = ["+", "-", "*", "/", ","];
+
+        for (let i = 0; i < operadores.length; i++)
+            if (res.innerText[res.innerText.length-1] == operadores[i])
+                nmrAnt = true;
+        
+        return nmrAnt;
+    }
+
     let calc = document.getElementById("calculadora");
     calc.style.backgroundColor = "black";
     calc.style.padding = "10px";
@@ -136,7 +158,7 @@ document.addEventListener("DOMContentLoaded", function(){
         divis.style.backgroundColor = "orange";
     })
     divis.addEventListener("click", function(){
-        if (res.innerText != "0" && res.innerText != "0," && res.innerText.length < 6 && !res.innerText.includes("/")){
+        if (res.innerText != "0" && res.innerText != "0," && res.innerText.length < 6 && !verificarOpr() && !verificarNmrAnt()){
             res.innerText += "/";
         }
     })
@@ -266,6 +288,11 @@ document.addEventListener("DOMContentLoaded", function(){
     multi.addEventListener("mouseleave", function(){
         multi.style.backgroundColor = "orange";
     })
+    multi.addEventListener("click", function(){
+        if (res.innerText != "0" && res.innerText != "0," && res.innerText.length < 6 && !verificarOpr() && !verificarNmrAnt()){
+            res.innerText += "*";
+        }
+    })
 
     multi.appendChild(tMulti);
     linha2.appendChild(multi);
@@ -391,6 +418,11 @@ document.addEventListener("DOMContentLoaded", function(){
     })
     sub.addEventListener("mouseleave", function(){
         sub.style.backgroundColor = "orange";
+    })
+    sub.addEventListener("click", function(){
+        if (res.innerText != "0" && res.innerText != "0," && res.innerText.length < 6 && !verificarOpr() && !verificarNmrAnt()){
+            res.innerText += "-";
+        }
     })
     
     sub.appendChild(tSub);
@@ -518,6 +550,11 @@ document.addEventListener("DOMContentLoaded", function(){
     soma.addEventListener("mouseleave", function(){
         soma.style.backgroundColor = "orange";
     })
+    soma.addEventListener("click", function(){
+        if (res.innerText != "0" && res.innerText != "0," && res.innerText.length < 6 && !verificarOpr() && !verificarNmrAnt()){
+            res.innerText += "+";
+        }
+    })
 
     soma.appendChild(tSoma);
     linha4.appendChild(soma);
@@ -609,28 +646,64 @@ document.addEventListener("DOMContentLoaded", function(){
         let partes;
         let num1;
         let num2;
+        let num3 = 0;
         let resultado;
-        let resultadoCmprt // Resultado comparativo
 
-        if (res.innerText.includes("/"))
-            partes = res.innerText.split("/");
+        if (res.innerText.includes("/")){
+            partes = res.innerText.replace(",", ".").split("/");
             num1 = parseFloat(partes[0]);
             num2 = parseFloat(partes[1]);
             resultado = num1/num2;
 
+            let intDec;
 
-            if (!Number.isInteger(resultado))
-                resultado = resultado.toFixed(1);
+            if (!Number.isInteger(resultado)){
+
+                if (resultado.toString().length > 6){
+                    intDec = resultado.toString().split(".");
+
+                    resultado = resultado.toFixed(6 - intDec[0].length + 1);
+
+                }
+            }
+
+            res.innerText = resultado.toString().replace(".", ",");
+
+        }
+
+        if (res.innerText.includes("*")){
+
+        }
 
 
-            if (resultado.toString().length > 6)
-                resultado = resultado.toFixed(0);
-                resultado = resultado.toString();
-                resultado = resultado.slice(0, 6);
-            resultado.toString();
+        if (res.innerText.includes("-") || res.innerText.includes("+")){
+            partes = res.innerText.replace(",", ".").split("-");
 
-            res.innerText = resultado.replace(".", ",");
+            if (partes[0].includes("+"))
+        }
 
+
+        if (res.innerText.includes("-")){
+            partes = res.innerText.replace(",", ".").split("-");
+            num1 = parseFloat(partes[0]);
+            num2 = parseFloat(partes[1]);
+            if (partes[2] != null)
+                num3 = parseFloat(partes[2]);
+            resultado = num1-num2-num3;
+
+            res.innerText = resultado.toString().replace(".", ",");
+        }
+        
+        if (res.innerText.includes("+")){
+            partes = res.innerText.replace(",", ".").split("+");
+
+            num1 = parseFloat(partes[0]);
+            num2 = parseFloat(partes[1]);
+
+            resultado = num1+num2;
+
+            res.innerText = resultado.toString().replace(".", ",");
+        }
     })
 
     igual.appendChild(tIgual);
