@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function(){
    
     function verificarOpr(){
         let operador = false;
-        let operadores = ["+", "*", "/"];
+        let operadores = ["*", "/"];
 
         for (let i = 0; i < operadores.length; i++)
             if (res.innerText.includes(operadores[i]))
@@ -420,7 +420,7 @@ document.addEventListener("DOMContentLoaded", function(){
         sub.style.backgroundColor = "orange";
     })
     sub.addEventListener("click", function(){
-        if (res.innerText != "0" && res.innerText != "0," && res.innerText.length < 6 && !verificarNmrAnt()){
+        if (res.innerText != "0" && res.innerText != "0," && res.innerText.length < 6 && !verificarNmrAnt() && !verificarOpr()){
             res.innerText += "-";
         }
     })
@@ -551,7 +551,7 @@ document.addEventListener("DOMContentLoaded", function(){
         soma.style.backgroundColor = "orange";
     })
     soma.addEventListener("click", function(){
-        if (res.innerText != "0" && res.innerText != "0," && res.innerText.length < 6 && !verificarNmrAnt()){
+        if (res.innerText != "0" && res.innerText != "0," && res.innerText.length < 6 && !verificarNmrAnt() && !verificarOpr()){
             res.innerText += "+";
         }
     })
@@ -649,6 +649,10 @@ document.addEventListener("DOMContentLoaded", function(){
         let num3 = 0;
         let resultado;
 
+        let txtTrat = res.innerText;
+        if (txtTrat[res.innerText.length-1] == "-" || txtTrat[res.innerText.length-1] == "+")
+            txtTrat = txtTrat.substring(0, res.innerText.length-2);
+
         if (res.innerText.includes("/")){
             partes = res.innerText.replace(",", ".").split("/");
             num1 = parseFloat(partes[0]);
@@ -680,9 +684,9 @@ document.addEventListener("DOMContentLoaded", function(){
 
             res.innerText = resultado.toString().replace(".", ",");
         }
-        else if (res.innerText.includes("-")){
-            if (res.innerText.includes("+")){
-                partes = res.innerText.replace(",", ".").split("+");
+        else if (txtTrat.includes("-")){
+            if (txtTrat.includes("+")){
+                partes = txtTrat.replace(",", ".").split("+");
 
                 if (partes[0].includes("-")){
                     let partesDiv = partes[0].split("-");
@@ -714,7 +718,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 }
             }
             else{
-                partes = res.innerText.replace(",", ".").split("-");
+                partes = txtTrat.replace(",", ".").split("-");
 
                 num1 = parseFloat(partes[0]);
                 num2 = parseFloat(partes[1]);
@@ -725,8 +729,8 @@ document.addEventListener("DOMContentLoaded", function(){
 
             res.innerText = resultado.toString().replace(".", ",");
         }
-        else if (res.innerText.includes("+")){
-            partes = res.innerText.replace(",", ".").split("+");
+        else if (txtTrat.includes("+")){
+            partes = txtTrat.replace(",", ".").split("+");
 
             num1 = parseFloat(partes[0]);
             num2 = parseFloat(partes[1]);
