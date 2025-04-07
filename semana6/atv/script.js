@@ -1,12 +1,15 @@
 document.addEventListener("DOMContentLoaded", function(){
-   
+
     function verificarOpr(){
         let operador = false;
-        let operadores = ["*", "/"];
+        let operadores = ["+", "-", "*", "/"];
 
         for (let i = 0; i < operadores.length; i++)
             if (res.innerText.includes(operadores[i]))
-                operador = true;
+            {
+                if (res.innerText[0] != "-" || res.innerText.includes("+") || res.innerText.includes("*") || res.innerText.includes("/"))
+                    operador = true;
+            }
         
         return operador;
     }
@@ -101,14 +104,127 @@ document.addEventListener("DOMContentLoaded", function(){
         pN.style.backgroundColor = "silver";
     });
     pN.addEventListener("click", function(){
-        let valor = parseFloat(res.innerText.replace(",", "."), 10);
-        let valorTex = 0;
-        if (valor > 0)
-            valorTex = -valor;
-        else if (valor < 0)
-            valorTex = Math.abs(valor);    
-        valorTex = valorTex.toString().replace(".", ",");
-        res.innerText = valorTex;
+        let partes;
+        let num;
+        txtVisor = res.innerText.replace(",", ".");
+
+        let qtdMenos = 0;
+        let posNeg;
+        let i = 0;
+        while (i < res.innerText.length){
+            if (res.innerText[i] == "-")
+                qtdMenos++;
+            if (qtdMenos == 1)
+                posNeg = i;
+            i++;
+        }
+
+        if (res.innerText.includes("/") || res.innerText.includes("*") || res.innerText.includes("+") || qtdMenos > 1){
+            if (res.innerText.includes("/")){
+                partes = res.innerText.replace(",", ".").split("/");
+                
+                num = parseFloat(partes[1], 10);
+                if (partes[1].includes("-"))
+                    num = Math.abs(num);
+                else
+                    num = -num;
+
+                txtFinal = partes[0]+"/"+num;
+                res.innerText = txtFinal.replace(".", ",");
+
+            }
+            else if (res.innerText.includes("*")){
+                partes = res.innerText.replace(",", ".").split("*");
+                
+                num = parseFloat(partes[1], 10);
+                if (partes[1].includes("-"))
+                    num = Math.abs(num);
+                else
+                    num = -num;
+
+                txtFinal = partes[0]+"*"+num;
+                res.innerText = txtFinal.replace(".", ",");
+
+            }
+            else if (res.innerText.includes("+")){
+                partes = res.innerText.replace(",", ".").split("+");
+                
+                num = parseFloat(partes[1], 10);
+                if (partes[1].includes("-"))
+                    num = Math.abs(num);
+                else
+                    num = -num;
+
+                txtFinal = partes[0]+"+"+num;
+                res.innerText = txtFinal.replace(".", ",");
+
+            }
+            else if (qtdMenos > 1){
+                res.innerText = txtVisor.substring(0, posNeg)+txtVisor.substring(posNeg+1);
+            }
+
+        }
+        else{
+            ultChar = res.innerText.length-1;
+            let numFinal = 0;
+            if (txtVisor[0] == "-"){
+                numFinal = txtVisor.substring(1);
+                primParte = txtVisor.substring(0, 1)
+            }
+            else
+            {
+                numFinal = txtVisor.substring(0);
+                primParte = "";
+            }
+
+            let oprMenos = false;
+
+            if (txtVisor.includes("-") && qtdMenos > 1){
+                oprMenos = true;
+                partes = txtVisor.split("-");
+                numFinal = partes[1];
+                primParte = partes[0];
+            }
+
+            num = parseFloat(numFinal);
+            if (primParte == "-" || txtVisor[0] == "-"){
+                primParte = "";
+                num = Math.abs(num);
+            }
+            else
+                num = -num;
+
+            if (oprMenos)
+                res.innerText = primParte+"-"+num.toString().replace(".", ",");
+            else
+                res.innerText = primParte+num.toString().replace(".", ",");
+
+            /*
+            if (res.innerText.includes("-"))
+                num = Math.abs(num);
+            else
+                num = -num;
+
+            res.innerText = num.toString().replace(".", ",");
+            */
+        }
+
+        /*
+        txtVisor = res.innerText.replace(",", ".");
+        ultChar = res.innerText.length-1;
+
+        if (!isNaN(txtVisor[ultChar])){
+            let valor = parseFloat(txtVisor[ultChar], 10);
+            let valorTex = 0;
+            if (valor > 0)
+                valorTex = -valor;
+            else if (valor < 0)
+                valorTex = Math.abs(valor);    
+            valorTex = valorTex.toString().replace(".", ",");
+
+            res.innerText = res.innerText.substring(0, ultChar)+valorTex;
+        }
+        */
         });
 
     pN.appendChild(tPn);
@@ -614,9 +730,15 @@ document.addEventListener("DOMContentLoaded", function(){
     });
     virgula.addEventListener("click", function(){
         if (res.innerText.length < 6)
+            if (!verificarNmrAnt())
+                if (!res.innerText.includes(","))
+                    res.innerText += ",";
+        /*
+        if (res.innerText.length < 6)
             if (res.innerText.charAt(res.innerText.length-1) != ",")
                 if (!res.innerText.includes(","))
                     res.innerText += ",";
+        */
     });
 
     virgula.appendChild(tVirgula);
@@ -646,12 +768,13 @@ document.addEventListener("DOMContentLoaded", function(){
         let partes;
         let num1;
         let num2;
-        let num3 = 0;
         let resultado;
 
+        /*
         let txtTrat = res.innerText;
         if (txtTrat[res.innerText.length-1] == "-" || txtTrat[res.innerText.length-1] == "+")
             txtTrat = txtTrat.substring(0, res.innerText.length-2);
+        */
 
         if (res.innerText.includes("/")){
             partes = res.innerText.replace(",", ".").split("/");
@@ -684,11 +807,18 @@ document.addEventListener("DOMContentLoaded", function(){
 
             res.innerText = resultado.toString().replace(".", ",");
         }
-        else if (txtTrat.includes("-")){
+        else if (res.innerText.includes("-")){
+            partes = res.innerText.replace(",", ".").split("-");
+
+            num1 = parseFloat(partes[0]);
+            num2 = parseFloat(partes[1]);
+            resultado = num1-num2;
+
+            /*
             if (txtTrat.includes("+")){
                 partes = txtTrat.replace(",", ".").split("+");
 
-                if (partes[0].includes("-")){
+                if (partes[0].includes("-", 1)){
                     let partesDiv = partes[0].split("-");
     
                     let n1 = parseFloat(partesDiv[0]);
@@ -699,7 +829,7 @@ document.addEventListener("DOMContentLoaded", function(){
         
                     resultado = num1+num2;
                 }
-                else if (partes[1].includes("-")){
+                else if (partes[1].includes("-", 1)){
                     let partesDiv = partes[1].split("-");
     
                     let n1 = parseFloat(partesDiv[0]);
@@ -726,18 +856,41 @@ document.addEventListener("DOMContentLoaded", function(){
                     num3 = parseFloat(partes[2]);
                 resultado = num1-num2-num3;
             }
+            */
 
             res.innerText = resultado.toString().replace(".", ",");
         }
-        else if (txtTrat.includes("+")){
-            partes = txtTrat.replace(",", ".").split("+");
+        else if (res.innerText.includes("+")){
+            partes = res.innerText.replace(",", ".").split("+");
 
             num1 = parseFloat(partes[0]);
             num2 = parseFloat(partes[1]);
-            if (partes[2] != null)
-                num3 = parseFloat(partes[2]);
 
-            resultado = num1+num2+num3;
+            resultado = num1+num2;
+
+            /*
+            partes = txtTrat.replace(",", ".").split("+");
+            let parte1 = partes[0];
+            let parte2 = partes[1];
+            let parte3;
+
+            num1 = parseFloat(partes[0]);
+            num2 = parseFloat(partes[1]);
+
+            if (partes[2] != null){
+                num3 = parseFloat(partes[2]);
+                parte3 = partes[2];
+            }
+
+            if (parte1[0] == "-")
+                resultado = -num1+num2+num3;
+            else if (parte2[0] == "-")
+                resultado = num1-num2+num3;
+            else if (parte3 != null && parte3[0] == "-")
+                resultado = num1+num2-num3;
+            else
+                resultado = num1+num2+num3;
+            */
 
             res.innerText = resultado.toString().replace(".", ",");
         }
