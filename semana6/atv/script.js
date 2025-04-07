@@ -166,18 +166,34 @@ document.addEventListener("DOMContentLoaded", function(){
         }
         else{
             ultChar = res.innerText.length-1;
+
+            let oprMenos = false;
+
             let numFinal = 0;
             if (txtVisor[0] == "-"){
                 numFinal = txtVisor.substring(1);
                 primParte = txtVisor.substring(0, 1)
+            }
+            else if (txtVisor.includes("-"))
+            {
+                let i = 0;
+                while (i < txtVisor.length){
+                    if (txtVisor[i] == "-"){
+                        posNeg = i;
+                        oprMenos = true;
+                        break;
+                    }
+                    i++;
+                }
+
+                numFinal = txtVisor.substring(posNeg+1);
+                primParte = txtVisor.substring(0, posNeg);
             }
             else
             {
                 numFinal = txtVisor.substring(0);
                 primParte = "";
             }
-
-            let oprMenos = false;
 
             if (txtVisor.includes("-") && qtdMenos > 1){
                 oprMenos = true;
@@ -248,6 +264,58 @@ document.addEventListener("DOMContentLoaded", function(){
     })
     porc.addEventListener("mouseleave", function(){
         porc.style.backgroundColor = "silver";
+    })
+    porc.addEventListener("click", function(){
+        let qtdMenos = 0;
+        let i = 0;
+        while (i < res.innerText.length){
+            if (res.innerText[i] == "-")
+                qtdMenos++;
+            i++;
+        }
+
+        let partes;
+        let num1;
+        let num2;
+
+        if (res.innerText.includes("+")){
+            partes = res.innerText.replace(",", ".").split("+");
+
+            num1 = parseFloat(partes[0], 10);
+            num2 = parseFloat(partes[1], 10);
+
+            num2 = num1*num2/100;
+            if (num2 % 1 != 0)
+                num2 = num2.toFixed(1);
+
+            res.innerText = partes[0]+"+"+num2.toString().replace(".", ",");
+        }
+        else if (res.innerText.includes("*"))
+        {
+            partes = res.innerText.replace(",", ".").split("*");
+
+            num1 = parseFloat(partes[0], 10);
+            num2 = parseFloat(partes[1], 10);
+
+            num2 = num1*num2/100;
+            if (num2 % 1 != 0)
+                num2 = num2.toFixed(1);
+
+            res.innerText = partes[0]+"*"+num2.toString().replace(".", ",");
+        }
+        else if (res.innerText.includes("/"))
+        {
+            partes = res.innerText.replace(",", ".").split("/");
+
+            num1 = parseFloat(partes[0], 10);
+            num2 = parseFloat(partes[1], 10);
+
+            num2 = num1*num2/100;
+            if (num2 % 1 != 0)
+                num2 = num2.toFixed(1);
+
+            res.innerText = partes[0]+"/"+num2.toString().replace(".", ",");
+        }
     })
 
     porc.appendChild(tPorc);
